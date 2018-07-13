@@ -74,3 +74,8 @@ Version: dev
 Commit: <SOMEHASH>
 Date: <SOMEDATE>
 ----
+
+== Contributing
+
+If you want to contribute check out
+https://github.com/christopherhein/go-version/blob/master/CONTRIBUTING.adoc
