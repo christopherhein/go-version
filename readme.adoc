@@ -15,7 +15,7 @@ package main
 
 import (
 	"fmt"
-	goVersion "github.com/christopherhein/go-version"
+	goversion "go.hein.dev/go-version"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +30,7 @@ var (
 		Long:  ``,
 		Run: func(_ *cobra.Command, _ []string) {
 			var response string
-			versionOutput := goVersion.New(version, commit, date)
+			versionOutput := goversion.New(version, commit, date)
 
 			if shortened {
 				response = versionOutput.ToShortened()
@@ -73,6 +73,15 @@ $ ./my-cli -s
 Version: dev
 Commit: <SOMEHASH>
 Date: <SOMEDATE>
+----
+
+== Testing
+
+To run the test suite all you need to do is run.
+
+[source,shell]
+----
+go test -v ./...
 ----
 
 == Contributing
