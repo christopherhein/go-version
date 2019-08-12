@@ -2,7 +2,10 @@ package version // import "go.hein.dev/go-version"
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
+
+	"github.com/spf13/cobra"
 )
 
 // Info creates a formattable struct for output
@@ -18,6 +21,22 @@ func New(version string, commit string, date string) *Info {
 		Version: version,
 		Commit:  commit,
 		Date:    date,
+	}
+}
+
+// Func will add the versioning code
+func Func(shortened bool, version, commit, date string) func(*cobra.Command, []string) {
+	return func(_ *cobra.Command, _ []string) {
+		var response string
+		versionOutput := New(version, commit, date)
+
+		if shortened {
+			response = versionOutput.ToShortened()
+		} else {
+			response = versionOutput.ToJSON()
+		}
+		fmt.Printf("%+v", response)
+		return
 	}
 }
 
