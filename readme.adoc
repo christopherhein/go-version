@@ -1,5 +1,7 @@
 = Go Version
 
+image::https://travis-ci.org/christopherhein/go-version.svg?branch=master[link="https://travis-ci.org/christopherhein/go-version"]
+
 This package gives allows you to use https://github.com/spf13/cobra and
 https://github.com/goreleaser/goreleaser together to output your version in a
 simple way. Supporting multiple flags for mutating the output.
