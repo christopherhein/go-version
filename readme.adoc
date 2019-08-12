@@ -7,7 +7,7 @@ simple way. Supporting multiple flags for mutating the output.
 == Usage
 
 To use this package you will need to create `cobra` command for version such as
-this:
+this.
 
 [source,go]
 ----
@@ -28,18 +28,7 @@ var (
 		Use:   "version",
 		Short: "Version will output the current build information",
 		Long:  ``,
-		Run: func(_ *cobra.Command, _ []string) {
-			var response string
-			versionOutput := goversion.New(version, commit, date)
-
-			if shortened {
-				response = versionOutput.ToShortened()
-			} else {
-				response = versionOutput.ToJSON()
-			}
-			fmt.Printf("%+v", response)
-			return
-		},
+		Run: goVersion.Func(shortened, version, commit, date),
 	}
 )
 
@@ -49,14 +38,32 @@ func init() {
 }
 ----
 
-When you do this then you can pass in these flags at build time.
+When you do this then you can pass in these flags at build time. _If you'd like
+more control of the output you can change the `Run` function to something more
+like this.
+
+[source,go]
+----
+Run: func(_ *cobra.Command, _ []string) {
+	var response string
+	versionOutput := New(version, commit, date)
+
+	if shortened {
+		response = versionOutput.ToShortened()
+	} else {
+		response = versionOutput.ToJSON()
+	}
+	fmt.Printf("%+v", response)
+	return
+},
+----
 
 [source,shell]
 ----
 go build -ldflags "-X main.commit=<SOMEHASH> -X main.date=<SOMEDATE>"
 ----
 
-This then gives your CLI thw ability to use this for the JSON output:
+This then gives your CLI the ability to use this for the JSON output:
 
 [source,shell]
 ----
@@ -64,7 +71,7 @@ $ ./my-cli version
 {"Version":"dev","Commit":"<SOMEHASH>","Date":"<SOMEDATE>"}
 ----
 
-Or to make this human readible you could use:
+Or to make this human readable you could use:
 
 [source,shell]
 ----
