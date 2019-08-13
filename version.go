@@ -3,6 +3,7 @@ package version // import "go.hein.dev/go-version"
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -25,7 +26,7 @@ func New(version string, commit string, date string) *Info {
 }
 
 // Func will add the versioning code
-func Func(shortened bool, version, commit, date string) func(*cobra.Command, []string) {
+func Func(out io.Writer, shortened bool, version, commit, date string) func(*cobra.Command, []string) {
 	return func(_ *cobra.Command, _ []string) {
 		var response string
 		versionOutput := New(version, commit, date)
@@ -35,7 +36,7 @@ func Func(shortened bool, version, commit, date string) func(*cobra.Command, []s
 		} else {
 			response = versionOutput.ToJSON()
 		}
-		fmt.Printf("%+v", response)
+		fmt.Fprintf(out, "%+v", response)
 		return
 	}
 }
