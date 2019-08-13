@@ -16,6 +16,8 @@ limitations under the License.
 package main
 
 import (
+	"os"
+
 	"github.com/spf13/cobra"
 	goVersion "go.hein.dev/go-version"
 )
@@ -29,7 +31,7 @@ var (
 		Use:   "version",
 		Short: "Version will output the current build information",
 		Long:  ``,
-		Run:   goVersion.Func(shortened, version, commit, date),
+		Run:   goVersion.Func(os.Stdout, shortened, version, commit, date),
 	}
 )
 
