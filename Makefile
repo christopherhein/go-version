@@ -1,3 +1,10 @@
+VERSION := $(shell cat VERSION)
+
+.PHONY: deps
+deps:
+	@npm i generate-changelog -g
+	@go get golang.org/x/lint/golint
+
 .PHONY: all
 all: build-example test
 
@@ -14,4 +21,12 @@ test:
 
 .PHONY: build-example
 build-example:
-	./hack/build_example.sh
+	./hack/build-example.sh
+
+.PHONY: generate-changelog
+generate-changelog:
+	./hack/generate-changelog.sh
+
+.PHONY: tag
+tag:
+	./hack/tag-release.sh
