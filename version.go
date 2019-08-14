@@ -3,10 +3,15 @@ package version // import "go.hein.dev/go-version"
 import (
 	"encoding/json"
 	"fmt"
-	"io"
-	"strings"
 
-	"github.com/spf13/cobra"
+	"sigs.k8s.io/yaml"
+)
+
+var (
+	// JSON returns json so that we can change the output
+	JSON = "json"
+	// YAML returns yaml so that we can change the output
+	YAML = "yaml"
 )
 
 // Info creates a formattable struct for output
@@ -25,20 +30,29 @@ func New(version string, commit string, date string) *Info {
 	}
 }
 
-// Func will add the versioning code
-func Func(out io.Writer, shortened bool, version, commit, date string) func(*cobra.Command, []string) {
-	return func(_ *cobra.Command, _ []string) {
-		var response string
-		versionOutput := New(version, commit, date)
+// Func will return the versioning code with only JSON and raw text support
+func Func(shortened bool, version, commit, date string) string {
+	return FuncWithOutput(shortened, version, commit, date, JSON)
+}
 
-		if shortened {
-			response = versionOutput.ToShortened()
-		} else {
+// FuncWithOutput will add the versioning code
+func FuncWithOutput(shortened bool, version, commit, date, output string) string {
+	var response string
+	versionOutput := New(version, commit, date)
+
+	if shortened {
+		response = versionOutput.ToShortened()
+	} else {
+		switch output {
+		case YAML:
+			response = versionOutput.ToYAML()
+		case JSON:
+			response = versionOutput.ToJSON()
+		default: // JSON as the default
 			response = versionOutput.ToJSON()
 		}
-		fmt.Fprintf(out, "%+v", response)
-		return
 	}
+	return fmt.Sprintf("%s", response)
 }
 
 // ToJSON converts the Info into a JSON String
@@ -47,22 +61,15 @@ func (v *Info) ToJSON() string {
 	return string(bytes) + "\n"
 }
 
+// ToYAML converts the Info into a JSON String
+func (v *Info) ToYAML() string {
+	bytes, _ := yaml.Marshal(v)
+	return string(bytes)
+}
+
 // ToShortened converts the Info into a JSON String
-func (v *Info) ToShortened() (str string) {
-	var version, commit, date string
-	if v.Version != "" {
-		version = "Version: " + v.Version
-	}
-	if v.Commit != "" {
-		commit = "Commit: " + v.Commit
-	}
-	if v.Date != "" {
-		date = "Date: " + v.Date
-	}
-	values := []string{version, commit, date}
-	values = deleteEmpty(values)
-	str = strings.Join(values, "\n")
-	return str + "\n"
+func (v *Info) ToShortened() string {
+	return v.ToYAML()
 }
 
 func deleteEmpty(s []string) []string {

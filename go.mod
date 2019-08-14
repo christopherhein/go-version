@@ -12,4 +12,5 @@ require (
 	golang.org/x/sys v0.0.0-20190812172437-4e8604ab3aff // indirect
 	golang.org/x/text v0.3.2 // indirect
 	golang.org/x/tools v0.0.0-20190812233024-afc3694995b6 // indirect
+	sigs.k8s.io/yaml v1.1.0
 )

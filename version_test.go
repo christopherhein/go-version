@@ -1,10 +1,7 @@
 package version
 
 import (
-	"bytes"
 	"testing"
-
-	"github.com/spf13/cobra"
 )
 
 func TestToJSON(t *testing.T) {
@@ -21,9 +18,9 @@ func TestToShortened(t *testing.T) {
 	v := New("dev", "fee8dd1f7c24da23508e26347694be0acce5631b", "Fri Jun 21 10:50:15 PDT 2019")
 	short := v.ToShortened()
 
-	expected := `Version: dev
-Commit: fee8dd1f7c24da23508e26347694be0acce5631b
+	expected := `Commit: fee8dd1f7c24da23508e26347694be0acce5631b
 Date: Fri Jun 21 10:50:15 PDT 2019
+Version: dev
 `
 
 	if short != expected {
@@ -43,18 +40,16 @@ func TestFunc(t *testing.T) {
 			shortened: false,
 		},
 		testcase{
-			expected: `Version: dev
-Commit: fee8dd1f7c24da23508e26347694be0acce5631b
+			expected: `Commit: fee8dd1f7c24da23508e26347694be0acce5631b
 Date: Fri Jun 21 10:50:15 PDT 2019
+Version: dev
 `,
 			shortened: true,
 		},
 	}
 
 	for _, c := range cases {
-		buffer := &bytes.Buffer{}
-		Func(buffer, c.shortened, "dev", "fee8dd1f7c24da23508e26347694be0acce5631b", "Fri Jun 21 10:50:15 PDT 2019")(&cobra.Command{}, []string{})
-		resp := buffer.String()
+		resp := FuncWithOutput(c.shortened, "dev", "fee8dd1f7c24da23508e26347694be0acce5631b", "Fri Jun 21 10:50:15 PDT 2019", JSON)
 		if resp != c.expected {
 			t.Errorf("got %q want %q", resp, c.expected)
 		}
