@@ -25,3 +25,12 @@
 * [view commit](http://github.com/christopherhein/go-version/commit/31b60dc048cf1d44580a415bd5df7c3e2235ef53) adding tagging utils
 <!-- END v0.0.2 -->
 
+<!-- START v0.1.0 -->
+## v0.1.0
+
+* [view commit](http://github.com/christopherhein/go-version/commit/07e4181c123766887af9f2c61679057b6216f8be) adding yaml outputter
+* [view commit](http://github.com/christopherhein/go-version/commit/fbf31c72ac808678677f9e18f16159209e6633ac) adding vendored packages
+* [view commit](http://github.com/christopherhein/go-version/commit/a57e0432fe776374a0afe2340c296d18ab7afc16) bumping version so it can have proper management
+* [view commit](http://github.com/christopherhein/go-version/commit/0ed65d58c88e0d5bd5193177f2219f9cd3690c78) version bump
+<!-- END v0.1.0 -->
+
