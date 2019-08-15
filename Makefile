@@ -30,3 +30,9 @@ generate-changelog:
 .PHONY: tag
 tag:
 	./hack/tag-release.sh
+
+push-tags:
+	@git push --tags
+
+.PHONY: release
+release: generate-changelog tag push-tags
