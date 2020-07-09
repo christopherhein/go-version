@@ -17,7 +17,7 @@ package main
 
 import (
 	"fmt"
-	goversion "go.hein.dev/go-version"
+	goVersion "go.hein.dev/go-version"
 	"github.com/spf13/cobra"
 )
 
@@ -54,7 +54,7 @@ like this.
 ----
 Run: func(_ *cobra.Command, _ []string) {
 	var response string
-	versionOutput := New(version, commit, date)
+	versionOutput := goVersion.New(version, commit, date)
 
 	if shortened {
 		response = versionOutput.ToShortened()
