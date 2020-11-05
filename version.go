@@ -67,9 +67,9 @@ func (v *Info) ToYAML() string {
 	return string(bytes)
 }
 
-// ToShortened converts the Info into a JSON String
+// ToShortened converts the Version into a String
 func (v *Info) ToShortened() string {
-	return v.ToYAML()
+	return fmt.Sprintf("Version: %s\n", v.Version)
 }
 
 func deleteEmpty(s []string) []string {

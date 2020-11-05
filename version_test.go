@@ -4,6 +4,11 @@ import (
 	"testing"
 )
 
+type testcase struct {
+	expected  string
+	shortened bool
+}
+
 func TestToJSON(t *testing.T) {
 	v := New("dev", "fee8dd1f7c24da23508e26347694be0acce5631b", "Fri Jun 21 10:50:15 PDT 2019")
 	json := v.ToJSON()
@@ -14,13 +19,25 @@ func TestToJSON(t *testing.T) {
 	}
 }
 
-func TestToShortened(t *testing.T) {
+func TestToYAML(t *testing.T) {
 	v := New("dev", "fee8dd1f7c24da23508e26347694be0acce5631b", "Fri Jun 21 10:50:15 PDT 2019")
-	short := v.ToShortened()
+	yaml := v.ToYAML()
 
 	expected := `Commit: fee8dd1f7c24da23508e26347694be0acce5631b
 Date: Fri Jun 21 10:50:15 PDT 2019
 Version: dev
+`
+
+	if yaml != expected {
+		t.Errorf("Expected yaml %s to equal %s", yaml, expected)
+	}
+}
+
+func TestToShortened(t *testing.T) {
+	v := New("dev", "fee8dd1f7c24da23508e26347694be0acce5631b", "Fri Jun 21 10:50:15 PDT 2019")
+	short := v.ToShortened()
+
+	expected := `Version: dev
 `
 
 	if short != expected {
@@ -28,21 +45,14 @@ Version: dev
 	}
 }
 
-type testcase struct {
-	expected  string
-	shortened bool
-}
-
 func TestFunc(t *testing.T) {
 	cases := []testcase{
-		testcase{
+		{
 			expected:  "{\"Version\":\"dev\",\"Commit\":\"fee8dd1f7c24da23508e26347694be0acce5631b\",\"Date\":\"Fri Jun 21 10:50:15 PDT 2019\"}\n",
 			shortened: false,
 		},
-		testcase{
-			expected: `Commit: fee8dd1f7c24da23508e26347694be0acce5631b
-Date: Fri Jun 21 10:50:15 PDT 2019
-Version: dev
+		{
+			expected: `Version: dev
 `,
 			shortened: true,
 		},
