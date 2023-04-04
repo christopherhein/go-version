@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/mitchellh/go-homedir v1.1.0
-	github.com/spf13/cobra v0.0.7
+	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.14.0
 	sigs.k8s.io/yaml v1.2.0
 )
